@@ -23,12 +23,14 @@ import {
   sqliteDatabase,
   YamlDatabase,
   FireDatabase,
+  MysqlDatabase
 } from "prisma.db"; // esm
 const {
   JsonDatabase,
   sqliteDatabase,
   YamlDatabase,
   FireDatabase,
+  MysqlDatabase
 } = require("prisma.db"); // common
 ```
 
@@ -58,7 +60,6 @@ const db = new YamlDatabase({ dbPath: "./db.yaml" });
 ## Firebase
 
 ```js
-// It is suitable for small projects.
 const { FireDatabase } = require("prisma.db");
 const db = new FireBase({
   service: require("./service.json"),
@@ -66,56 +67,74 @@ const db = new FireBase({
 });
 ```
 
+## Mysql
+
+```js
+// It is suitable for small projects. BETA
+const { MysqlDatabase } = require("prisma.db");
+const db = new MysqlDatabase({
+    host: "...",
+    user: "...",,
+    password: "...",,
+    database: "...",
+});
+```
+
 # 📝 Usage
 
 ```js
-/* Database Set and Push Example */
+
+// Json, Sqlite, Yaml Usage
 
 db.set("hello", "world"); /* String: World */
-
 db.set("posts", [{ id: 1 }]); /* Array: [{ id: 1 }] */
-
 db.push("posts", { id: 2 }); /* Array: [{ id: 1 }, { id: 2 }] */
 
-/* Database Example */
-
-db.type("hello"); /* String: "string" */
-
-db.size(); /* Number: 1 */
-
 db.fetch("hello"); /* String: World */
-
 db.get("posts"); /* Array: [{ id: 1 }, { id: 2 }] */
-
+db.has("posts"); /* Boolean: true */
 db.dataAll(); /* Object: { hello: "World", posts: [{ id: 1 }, { id: 2 }] } */
 
-db.clear(); /* Object: {} */
+db.set("a", 1);
+db.add("a", 1); /* Number: 2 */
+db.subtract("a", 1); /* Number: 1 */
+db.math("a", "+", 12); /* Number: 13 */
+db.math("a", "-", "1"); /* Number: 12 */
+db.math("a", "*", "2"); /* Number: 24 */
+db.math("a", "/", "2"); /* Number: 12 */
+db.math("a", "%", "5"); /* Number: 1 */
 
+db.type("hello"); /* String: "string" */
+db.size(); /* Number: 1 */
+
+db.delete("hello"); // returns true
+db.clear(); /* Object: {} */
 db.destroy(); /* Object: {} */
 
-/* Database Boolean Functions */
+// MySQL Usage 
 
-db.has("world"); /* Boolean: false */
+const { MysqlDatabase } = require("prisma.db");
+const db = new MysqlDatabase({
+    host: "...",
+    user: "...",,
+    password: "...",,
+    database: "...",
+});
 
-db.has("posts"); /* Boolean: true */
+db.tableList();  /* Object: {table...} */ 
+db.tableSet(`CREATE TABLE IF NOT EXISTS...`);  /* Boolean: true */ 
+db.tableDelete("users");  /* Boolean: true */ 
 
-/* Database Maths Functions */
+db.set("users", { name: "Raphael" }); /* Boolean: true */ 
+db.update("users", "name", "Raffaello" , { name: "Raffaello Sanzio", });  /* Boolean: true */ 
 
-db.set("a", 1);
+db.fetch("users", "name", "Raphael"); /* returns { hello: "world" } */ 
+db.has("users", "name", "Raphael"); /* Boolean: true */ 
 
-db.add("a", 1); /* Number: 2 */
-
-db.subtract("a", 1); /* Number: 1 */
-
-db.math("a", "+", 12); /* Number: 13 */
-
-db.math("a", "-", "1"); /* Number: 12 */
-
-db.math("a", "*", "2"); /* Number: 24 */
-
-db.math("a", "/", "2"); /* Number: 12 */
-
-db.math("a", "%", "5"); /* Number: 1 */
+db.delete("users", "name", "Raphael"); /* Boolean: true */ 
+db.destroy(); // Database connect is closed
+db.clear("users"); /* Boolean: true */ 
+db.size("users"); /* returns 1 */
 
 // Firebase Usage
 
@@ -153,6 +172,7 @@ db.math("mars", "population", "*", 10); // returns 10
 ## 📜 Multiple use
 
 ```js
+// Recommended for Json, Sqlite, Yaml.
 const { JsonDatabase } = require("prisma.db");
 
 const a = new JsonDatabase({ dbPath: "./a.json" });
@@ -172,7 +192,7 @@ Contributions, issues and feature requests are welcome!<br />Feel free to check 
 
 ## 💌 License
 
-Webscreen is **licensed** under the **[MIT License]**. The terms of the license are as follows:
+Prisma.db is **licensed** under the **[MIT License]**. The terms of the license are as follows:
 
     The MIT License (MIT)
 

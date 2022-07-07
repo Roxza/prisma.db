@@ -1,7 +1,7 @@
 {
   "name": "prisma.db",
-  "version": "0.0.6",
-  "description": "⚡ It is a simplified database module with multiple functions that you can use simultaneously with sqlite, firebase, yaml and json.",
+  "version": "0.0.9",
+  "description": "⚡ It is a simplified database module with multiple functions that you can use simultaneously with sqlite, firebase, mysql, yaml and json.",
   "main": "./lib/index.js",
   "types": "./index.ts",
   "scripts": {
@@ -14,11 +14,13 @@
   "keywords": [
     "json",
     "database",
+    "db",
     "prisma",
     "sqlite",
     "firebase",
     "yaml",
-    "multiple"
+    "multiple",
+    "mysql"
   ],
   "author": "roxza",
   "dependencies": {
@@ -30,7 +32,8 @@
     "lodash.set": "^4.3.2",
     "lodash.unset": "^4.5.2",
     "lowdb": "^1.0.0",
-    "prisma.db": "^0.0.8",
+    "mysql": "^2.18.1",
+    "prisma.db": "^0.0.5",
     "yaml": "^1.10.2"
   },
   "license": "MIT"
