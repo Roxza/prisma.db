@@ -33,7 +33,7 @@
     "lodash.unset": "^4.5.2",
     "lowdb": "^1.0.0",
     "mysql": "^2.18.1",
-    "prisma.db": "^0.0.5",
+    "prisma.db": "^0.0.8",
     "yaml": "^1.10.2"
   },
   "license": "MIT"
